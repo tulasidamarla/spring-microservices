@@ -104,9 +104,27 @@ In a nutshell, spring boot offers the following.
 
 Note: Spring boot is not a code generator. Also, it is not a plugin to any specific IDE. you can use it with any IDE.
 
+If you create a spring starter project using sts or with spring initializer the following things happen.
+1)Project structure is be created(Mostly folder structures like src/main/java,src/main/resources,src/main/test etc)
+2)Application class and a Test class is created
+3)Maven pom file is created with spring boot dependencies
 
+Note: spring-boot-starter-parent is the main configuration with spring boot version details. For a simple spring boot project, it creates two dependencies.
+1)spring-boot-starter
+2)spring-boot-starter-test
 
+Note: If you have to start any simple spring project with maven, you have to provide atleast 10 to 20 dependencies. With spring boot you just have to provide the above mentioned two dependencies. Those two dependencies bring lot of transitive dependencies. you can overwrite any of the depencies you want. For ex, spring boot uses junit, mockito , hamcrest(assertion library) etc as default. you can overwrite any of these depending on the project or business need.
 
+Running spring boot application is like running any java program. It contains one line in main method. 
 
+	SpringApplication.run(SpringbootdemoApplication.class, args);
+	
+SpringApplication is a class from the package org.springframework.boot.SpringApplication, which will start the spring application context. SpringApplication class needs configuration to run. It generally takes the same class in which it is running. It contains a single configuration annotation @SpringBootApplication.
 
+SpringBootApplication annotation is a combination of three annotations. 
+1)@Configuration(used to define additional java configuration classes)
+2)@ComponentScan(used typically to scan the stereo type annatations like @Component, @Service and @Repository)
+3)@EnableAutoConfiguration
+
+@EnableAutoConfiguration: This is the most import configuration in the spring boot application. It scans the classpath and creates missing beans based on intelligent defaults. For example, if it finds a web application jars like tomcat, it creates web application context. Similary, if it finds database jars, it will create transaction manager bean.
 
