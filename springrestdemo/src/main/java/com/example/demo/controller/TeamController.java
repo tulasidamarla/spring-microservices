@@ -26,7 +26,7 @@ public class TeamController {
 	}
 	
 
-	@RequestMapping("/hi")
+	@RequestMapping(name="/hi", produces="application/xml")
 	public Team greeting(){
 		return team;
 	}

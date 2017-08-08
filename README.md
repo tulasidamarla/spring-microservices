@@ -380,3 +380,112 @@ Spring Data Rest
 ----------------
 Often applications expose DAO methods as REST resources. Controllers and Services will have some boilerplate code. If we use spring data rest, it handle these boilerplate code, so no need to write controller and service classes.
 
+Spring data plugs into dynamic repositories and generates restful interfaces like GET, PUT, POST, DELETE etc.
+
+Note: Code is needed only to overwrite defaults.
+
+We need to make the following changes to run the application with spring data rest.
+
+1)Add the following maven dependency.
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-rest</artifactId>
+		</dependency>
+
+2)Change the DAO interface.
+
+	@RestResource(path="teams",rel="teams")
+	public interface TeamDAO extends CrudRepository<Team, Long> {
+		Team findByName(String name);
+	}	
+		
+3)Remove controller and service classes.
+
+Here is the sample response of localhost:8090/teams
+
+	{
+	  "name": "IPL",
+	  "location": "India",
+	  "mascotte": null,
+	  "players": [
+		{
+		  "name": "Sachin",
+		  "position": "Mumbai"
+		},
+		{
+		  "name": "Dravid",
+		  "position": "Rajastan"
+		}
+	  ],
+	  "_links": {
+		"self": {
+		  "href": "http://localhost:8090/teams/1"
+		},
+		"team": {
+		  "href": "http://localhost:8090/teams/1"
+		}
+	  }
+	}
+
+Note: While starting the application does the following things.
+1)@RestResource annotations are interpreted
+2)@Controller beans are created
+3)@RequestMappings are created
+
+Adding HATEOAS
+--------------
+HATEOAS stands for Hyper text as the engine of application state. Spring data rest simply returns restful resources by converting them using Jackson or JAXB.
+
+Note: In the above json response, when we asked for teams it also returned players. In real restful response, that should not happen. Instead it should create links based on the underlying data relationships. Here in the above example, we don't have Player repository, so we need to create one for returning the links.
+
+Let's write the PlayerDAO.
+
+	@RestResource(path="players",rel="players")
+	public interface PlayerDAO extends CrudRepository<Player, Long> {
+	}
+
+Output of the localhost:8090/teams will be like this:
+
+	{
+		"teams": [
+			{
+				"name": "IPL",
+				"location": "India",
+				"mascotte": null,
+				"_links": {
+					"self": {
+						"href": "http://localhost:8090/teams/1"
+					},
+					"team": {
+						"href": "http://localhost:8090/teams/1"
+					},
+					"players": {
+						"href": "http://localhost:8090/teams/1/players"
+					}
+				}
+			}
+		]
+	}		
+
+Note: The Annotation @RestResource, rel attribute value "players", can be seen in the response json above.
+
+Actuator
+--------
+Spring boot has provided a starter named actuator, which will add some useful end points to our webapplication. For ex, /info,/health etc. Here is the maven dependency.
+
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-actuator</artifactId>
+	</dependency>
+
+
+It also provides few endpoints like /beans, /configprops , /autoconfig, /mappings etc. But exposing these endpoints are a security risk. To enable these actuator endpoints, add the following maven dependency.
+
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-security</artifactId>
+	</dependency>
+
+Note: Look at the console output for "default security password". Copy this randomly-generated password, then browse to endpoints listed above, using "user" for username and paste the randomly-generated value for password.
+
