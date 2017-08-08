@@ -275,4 +275,108 @@ Note: @XmlRootElement is the only annotation needed for this example. The rest o
 Note: If you access the application using localhost:8080/hi.xml, xml response will come.
 If you try to access using localhost:8080/hi.json, json response will come.
 
+Spring Boot with JPA
+--------------------
+Spring boot has starter for jpa. i.e. sprint-boot-starter-data-jpa. It adds the following dependencies.
+1)Spring JDBC/transaction management
+2)Spring ORM
+3)Hibernate/Entity managers
+4)Spring data jpa 
+
+Note: It won't add any database driver.
+
+A Typical webapplication contains 3 layered architecture. It has Controller, Service and DAO layers. Rest Controllers provide CRUD interface to clients. DAO provide CRUD interface to DB.
+
+As we know DAO layer contains lot of code which is common to CRUD operations. Spring data abstracts away all the common implementation by providing dynamic repositories. All we need to do is to provide interface, spring data dynamically implements JPA, MongoDB, Gemfire etc.
+
+Note: Spring data has lot of sub projects for various data stores like RDBMS, Mongo, Solr,redis etc.
+
+Spring Data JPA Demo
+--------------------
+This Demo uses hsqldb driver. The following steps are required.
+1)Add the below maven dependencies.
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+		</dependency>
+		
+2)Create an interface say TeamDAO and extend from CRUDRepository
 	
+	public interface TeamDAO extends CrudRepository<Team, Long> {
+		Team findByName(String name);
+	}
+
+Note: Spring data dynamically implements repositories with methods findBy[Fields][Operations],save,delete,findAll etc.
+Note: Datasource and transaction management are all handled
+
+3)Save some records immediately after startup of the container.For ex,
+
+	@SpringBootApplication
+	public class SpringbootdemoApplication {
+		
+		@Autowired
+		TeamDAO teamDAO;
+
+		public static void main(String[] args) {
+			SpringApplication.run(SpringbootdemoApplication.class, args);
+		}
+
+		@PostConstruct
+		public void init(){
+			Set<Player> players = new HashSet<>();
+			players.add(new Player("Dravid","Rajastan"));
+			players.add(new Player("Sachin","Mumbai"));
+			Team team = new Team("India", "IPL", players);
+			teamDAO.save(team);
+		}
+	}
+	
+4)Annotate the domain objects with JPA. For ex,
+
+	@Entity
+	public class Player {
+
+		@Id
+		@GeneratedValue
+		Long id;
+		String name;
+		String position;
+	}
+
+	@Entity
+	public class Team {
+
+		@Id
+		@GeneratedValue
+		Long id;
+		String name;
+		String location;
+		String mascotte;
+		@OneToMany(cascade = CascadeType.ALL)
+		@JoinColumn(name="teamId")
+		Set<Player> players;
+	}
+
+5)change the controller to take some path variable and return the data.
+
+	@RestController
+	public class TeamController {
+		@Autowired
+		private TeamDAO teamDAO;
+
+		@RequestMapping("/teams/{name}")
+		public Team greeting(@PathVariable String name){
+			return teamDAO.findByName(name);
+		}
+	}
+
+Note: try the URL localhost:8090/teams/IPL to see the response.	
+
+Spring Data Rest
+----------------
+Often applications expose DAO methods as REST resources. Controllers and Services will have some boilerplate code. If we use spring data rest, it handle these boilerplate code, so no need to write controller and service classes.
+
