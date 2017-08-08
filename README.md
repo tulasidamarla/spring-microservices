@@ -128,3 +128,129 @@ SpringBootApplication annotation is a combination of three annotations.
 
 @EnableAutoConfiguration: This is the most import configuration in the spring boot application. It scans the classpath and creates missing beans based on intelligent defaults. For example, if it finds a web application jars like tomcat, it creates web application context. Similary, if it finds database jars, it will create transaction manager bean.
 
+Webapplication with Spring boot
+-------------------------------
+To create a webapplication with spring boot two changes are required. 
+
+1)change the pom.xml starter dependency to web.
+	
+	<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+	</dependency>
+	
+Note: This dependency downloads jars related to web like tomcat-embed-*.jar, spring-web.jar, spring-webmvc.jar etc. 
+
+2)create a controller
+
+	@Controller
+	public class HelloController {
+		@RequestMapping("/hi")
+		public @ResponseBody String greeting(){
+			return "hello world!";
+		}
+	}
+
+Note: @ResponseBody indicates that the response is not tied to any view.
+Note: @EnableAutoConfiguration annotations looks at the classpath and identifies the spring-webmvc jar and creates beans DispatcherServelt,Handler mappings, Adapters, view resolver etc.
+Note: Springboot creates a jar file with embedded tomcat instance and runs it.
+
+Creating a war with Spring Boot
+-------------------------------
+To convert from jar to war	
+1)change packaging in pom.xml to war
+2)Extend the SpringBootServletIntitalizer
+
+	@SpringBootApplication
+	public class SpringbootdemoApplication extends SpringBootServletInitializer{
+		public static void main(String[] args) {
+			SpringApplication.run(SpringbootdemoApplication.class, args);
+		}
+
+		@Override
+		protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+			return builder.sources(SpringbootdemoApplication.class);
+		}
+	}
+
+Creating Webpages
+-----------------
+Spring mvc supports wide variety of view options like Jsp's, Thymeleaf, Freemaker, velocity etc.
+By default spring boot creates InterenalViewResolver bean for Jsp. If thymeleaf is present on the classpath, then ThymeleafViewResolver bean is created.
+
+Note: Thymeleaf is a web templating technology. This is also natural templating, because it uses regular html, css and javascript.
+
+To use thymeleaf, add the following thymeleaf dependency.
+	
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		
+Note: To know all the different starters available with spring boot, please go to the spring reference and search for the section called "starters" or use this link:
+https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#using-boot-starter		
+As Spring boot is opinionated, it expects the folder "templates" for thymeleaf under src/main/resources folder.
+
+
+Note: If you want to use use jsp's instead of thymeleaf, few changes are required.
+1)Add the following dependencies to pom.xml
+		
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+
+2)Write a configuration file like this if auto configuration does not work:
+
+	@Configuration
+	@EnableWebMvc
+	public class SpringMVCConfig {
+
+		@Bean
+		public InternalResourceViewResolver resolver() {
+			InternalResourceViewResolver vr = new InternalResourceViewResolver();
+			vr.setPrefix("/WEB-INF/views/");
+			vr.setSuffix(".jsp");
+			return vr;
+		}
+	}
+
+3)write your jsp file in the /WEB-INF/views directory as mentioned in the above code. 
+
+Spring & Rest
+-------------
+Rest capability is built into Spring MVC. It uses domain objects as parameters and return values.
+Use the annotations @RequestBody and @ResponseBody for request parameters and return values.
+
+Note: Spring MVC automatically handles XML/Json conversion based on converters available on classpath.
+
+Write some domain classes to return response in json format. Here is the sample code for controller.
+
+	@RestController
+	public class TeamController {
+		
+		private Team team;
+		
+		@PostConstruct
+		public void init(){
+			Set<Player> players = new HashSet<>();
+			
+			players.add(new Player("Dravid","Rajastan"));
+			players.add(new Player("Sachin","Mumbai"));
+			team = new Team("India", "IPL", players);
+		}
+		
+		@RequestMapping("/hi")
+		public Team greeting(){
+			return team;
+		}
+
+	}
+
+	
