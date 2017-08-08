@@ -253,4 +253,26 @@ Write some domain classes to return response in json format. Here is the sample 
 
 	}
 
+Note: Spring MVC invokes correct HttpMessageConverters based on the requested format and jars on the classpath.
+
+XML response format
+-------------------
+For XML response let's annotate domain classes with JAXB annotations. JAXB is part of Java SE.
+
+When application starts spring creates message converters for JAXB based on classpath jars. So XML or Json is returned based on the request. Here is the change needed for domain object.
+
+	@XmlRootElement
+	public class Team {
+		String name;
+		String location;
+		String mascotte;
+		
+		Set<Player> players;
+	}
+
+Note: @XmlRootElement is the only annotation needed for this example. The rest of the class is ignored for symplicity. 
+
+Note: If you access the application using localhost:8080/hi.xml, xml response will come.
+If you try to access using localhost:8080/hi.json, json response will come.
+
 	
