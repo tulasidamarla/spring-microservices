@@ -47,7 +47,7 @@ Microservices communicate to each other via lightweight protocols like HTTP,TCP,
 Microservices are not based on technology stack, they are based on business functionality. It is suitable for cross functional teams.
 Microservices are easy to comprehend,alter,test,version,deploy,manage,replace etc.
 
-Note: Microservices architectural if of decentralized governance. Services evolve at different speeds, deployed and managed according to different needs.
+Note: Microservices architecture is of decentralized governance. Services evolve at different speeds, deployed and managed according to different needs.
 
 Note: Microservices has to be tolerant readers. i.e. if a new field appears in response, it should not be considered as failure.
 
