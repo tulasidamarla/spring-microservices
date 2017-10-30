@@ -7,14 +7,14 @@ Note: microservices can be seperately written, deployed, scaled and maintained.
 
 Monolithic example
 ------------------
-Consider a monolith shopping cart application. It has the following functional areas.
-product search
-product catalog
-reviews
-inventory management
-shopping kart
-checkout
-Fullfillment
+Consider a monolith shopping cart application. It has the following functional areas.<br>
+product search<br>
+product catalog<br>
+reviews<br>
+inventory management<br>
+shopping kart<br>
+checkout<br>
+Fullfillment<br>
 
 A typical monolithic application contains layered approach with controllers, services and DAO's for each functionality and UI layer(jsps).
 
