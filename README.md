@@ -25,14 +25,14 @@ Note: It's very difficult for a monolithic application written in a single langu
 
 Advantages of Monolithic
 ------------------------
-1)Easy to understand the architecture, but not easy to digest the codebase
+1)Easy to understand the architecture, but not easy to digest the codebase<br>
 2)Modularity is based on single program language construct. i.e. based on packages, classes, functions etc.
 
 Challenges with Monolithic
 --------------------------
-1)Single codebase is difficult to manage when the size is beyond certain limit.
-2)If the codebase is split into multiple, then assembling multiple codebases into a release artifact needs a seperate team to manage the releases.
-3)If a particular language is not the best choice(for example if a module needs sharepoint access, then .net is the better choice), then we are struck.
+1)Single codebase is difficult to manage when the size is beyond certain limit.<br>
+2)If the codebase is split into multiple, then assembling multiple codebases into a release artifact needs a seperate team to manage the releases.<br>
+3)If a particular language is not the best choice(for example if a module needs sharepoint access, then .net is the better choice), then we are struck.<br>
 4)cannot independently deploy a single change to single component.
 
 Microservices
@@ -57,38 +57,38 @@ Note: With microservices we can't rely on traditional ACID transactions, instead
 
 Challenges with Microservices
 -----------------------------
-1)coordination of services is not easy
-2)Services may not be available
-3)More monitoring is needed
-4)Remote calls are expensive than in-process calls
-5)no transactions
-6)features span multiple services, so change management is difficult
+1)coordination of services is not easy<br>
+2)Services may not be available<br>
+3)More monitoring is needed<br>
+4)Remote calls are expensive than in-process calls<br>
+5)no transactions<br>
+6)features span multiple services, so change management is difficult<br>
 7)Refactoring of monolith across module boundaries is difficult. sometimes, the data needed for one microservice may be present in another.
 
 Fallacies of distributed computing
 ----------------------------------
-Network is reliable
-Latency is zero
-Bandwidth is infinite
-Network is secure
-Toplogy doesn't change
-There is one administrator
-Transport cost is zero
-Network is homogenious
+Network is reliable<br>
+Latency is zero<br>
+Bandwidth is infinite<br>
+Network is secure<br>
+Toplogy doesn't change<br>
+There is one administrator<br>
+Transport cost is zero<br>
+Network is homogenious<br>
 
 How to break Monolith into microservices
 ----------------------------------------
 Primary consideration is business functionality: 
 This can be either of the following.
-1)Noun-based(catalog,cart,customer)
-2)verb-based(search,checkout,shipping)
-3)Single responsibility principle(SRP)
+1)Noun-based(catalog,cart,customer)<br>
+2)verb-based(search,checkout,shipping)<br>
+3)Single responsibility principle(SRP)<br>
 4)Bounded context(DDD- domain driven design)
 
 Difference between SOA and microservices
 ----------------------------------------
-SOA is about integrating various enterprise applications, where as microservices are mainly about decomposing single applications.
-SOA relies on archestration, Microservices rely on choreography.
+SOA is about integrating various enterprise applications, where as microservices are mainly about decomposing single applications.<br>
+SOA relies on archestration, Microservices rely on choreography.<br>
 SOA rely on smart integration and dumb services where as microservice rely on smart services and dumb integration technology.
 
 Spring Boot
@@ -98,19 +98,19 @@ If you want to start a new Spring project, it takes about one or two days only t
 Spring Boot is designed to address the above concerns. It is an opinionated approach to configuration and defaults. It basically provides you intelligent defaults automatically. For ex, if you want to start a web project, spring boot configures embedded tomcat by default.
 
 In a nutshell, spring boot offers the following.
-1)Easier dependency management
-2)Automatic configuration and reasonable defaults
+1)Easier dependency management<br>
+2)Automatic configuration and reasonable defaults<br>
 3)Different build and deployment options
 
 Note: Spring boot is not a code generator. Also, it is not a plugin to any specific IDE. you can use it with any IDE.
 
 If you create a spring starter project using sts or with spring initializer the following things happen.
-1)Project structure is be created(Mostly folder structures like src/main/java,src/main/resources,src/main/test etc)
-2)Application class and a Test class is created
+1)Project structure is be created(Mostly folder structures like src/main/java,src/main/resources,src/main/test etc)<br>
+2)Application class and a Test class is created<br>
 3)Maven pom file is created with spring boot dependencies
 
-Note: spring-boot-starter-parent is the main configuration with spring boot version details. For a simple spring boot project, it creates two dependencies.
-1)spring-boot-starter
+Note: spring-boot-starter-parent is the main configuration with spring boot version details. For a simple spring boot project, it creates two dependencies.<br>
+1)spring-boot-starter<br>
 2)spring-boot-starter-test
 
 Note: If you have to start any simple spring project with maven, you have to provide atleast 10 to 20 dependencies. With spring boot you just have to provide the above mentioned two dependencies. Those two dependencies bring lot of transitive dependencies. you can overwrite any of the depencies you want. For ex, spring boot uses junit, mockito , hamcrest(assertion library) etc as default. you can overwrite any of these depending on the project or business need.
@@ -121,9 +121,9 @@ Running spring boot application is like running any java program. It contains on
 	
 SpringApplication is a class from the package org.springframework.boot.SpringApplication, which will start the spring application context. SpringApplication class needs configuration to run. It generally takes the same class in which it is running. It contains a single configuration annotation @SpringBootApplication.
 
-SpringBootApplication annotation is a combination of three annotations. 
-1)@Configuration(used to define additional java configuration classes)
-2)@ComponentScan(used typically to scan the stereo type annatations like @Component, @Service and @Repository)
+SpringBootApplication annotation is a combination of three annotations. <br>
+1)@Configuration(used to define additional java configuration classes)<br>
+2)@ComponentScan(used typically to scan the stereo type annatations like @Component, @Service and @Repository)<br>
 3)@EnableAutoConfiguration
 
 @EnableAutoConfiguration: This is the most import configuration in the spring boot application. It scans the classpath and creates missing beans based on intelligent defaults. For example, if it finds a web application jars like tomcat, it creates web application context. Similary, if it finds database jars, it will create transaction manager bean.
@@ -157,8 +157,8 @@ Note: Springboot creates a jar file with embedded tomcat instance and runs it.
 
 Creating a war with Spring Boot
 -------------------------------
-To convert from jar to war	
-1)change packaging in pom.xml to war
+To convert from jar to war<br>	
+1)change packaging in pom.xml to war<br>
 2)Extend the SpringBootServletIntitalizer
 
 	@SpringBootApplication
@@ -277,10 +277,10 @@ If you try to access using localhost:8080/hi.json, json response will come.
 
 Spring Boot with JPA
 --------------------
-Spring boot has starter for jpa. i.e. sprint-boot-starter-data-jpa. It adds the following dependencies.
-1)Spring JDBC/transaction management
-2)Spring ORM
-3)Hibernate/Entity managers
+Spring boot has starter for jpa. i.e. sprint-boot-starter-data-jpa. It adds the following dependencies.<br>
+1)Spring JDBC/transaction management<br>
+2)Spring ORM<br>
+3)Hibernate/Entity managers<br>
 4)Spring data jpa 
 
 Note: It won't add any database driver.
@@ -295,6 +295,7 @@ Spring Data JPA Demo
 --------------------
 This Demo uses hsqldb driver. The following steps are required.
 1)Add the below maven dependencies.
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -429,8 +430,9 @@ Here is the sample response of localhost:8090/teams
 	}
 
 Note: While starting the application does the following things.
-1)@RestResource annotations are interpreted
-2)@Controller beans are created
+
+1)@RestResource annotations are interpreted<br>
+2)@Controller beans are created<br>
 3)@RequestMappings are created
 
 Adding HATEOAS
