@@ -41,7 +41,7 @@ Microservices are independent applications built around the functional areas of 
 Microservices are easy to scale. Each microservice is a small application, each one can have it's own DB system based on technology(or business need) that is best suited for the given scenario. 
 
 Note:
-Each of the services have to be accessed by different kinds of clients like mobile,tablets etc accessing directly can lead to a number of issues. We usually have a component called API gateway between client and services. It's purpose is to be present an easy to use interface for the clients. API gateway can do additional things like authentication, caching, response transforamtion etc.
+Each of the services have to be accessed by different kinds of clients like mobile,tablets etc. Accessing directly can lead to a number of issues. We usually have a component called API gateway between client and services. It's purpose is to present an easy to use interface for the clients. API gateway can do additional things like authentication, caching, response transforamtion etc.
 
 Microservices communicate to each other via lightweight protocols like HTTP,TCP,UDP,messaging etc.
 Microservices are not based on technology stack, they are based on business functionality. It is suitable for cross functional teams.
