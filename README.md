@@ -125,10 +125,10 @@ SpringApplication is a class from the package org.springframework.boot.SpringApp
 
 SpringBootApplication annotation is a combination of three annotations. <br>
 1)@Configuration(used to define additional java configuration classes)<br>
-2)@ComponentScan(used typically to scan the stereo type annatations like @Component, @Service and @Repository)<br>
+2)@ComponentScan(used typically to scan the stereo type annotations like @Component, @Service and @Repository)<br>
 3)@EnableAutoConfiguration
 
-@EnableAutoConfiguration: This is the most import configuration in the spring boot application. It scans the classpath and creates missing beans based on intelligent defaults. For example, if it finds a web application jars like tomcat, it creates web application context. Similary, if it finds database jars, it will create transaction manager bean.
+@EnableAutoConfiguration: This is the most important configuration in the spring boot application. It scans the classpath and creates missing beans based on intelligent defaults. For example, if it finds a web application jars like tomcat, it creates web application context. Similary, if it finds database jars, it will create transaction manager bean.
 
 Webapplication with Spring boot
 -------------------------------
