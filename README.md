@@ -79,8 +79,7 @@ Network is homogenious<br>
 
 How to break Monolith into microservices
 ----------------------------------------
-Primary consideration is business functionality: 
-This can be either of the following.
+Primary consideration is business functionality: This can be any of the following.<br>
 1)Noun-based(catalog,cart,customer)<br>
 2)verb-based(search,checkout,shipping)<br>
 3)Single responsibility principle(SRP)<br>
