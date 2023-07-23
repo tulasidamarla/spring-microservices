@@ -19,6 +19,7 @@ Fullfillment<br>
 A typical monolithic application contains layered approach with controllers, services and DAO's for each functionality and UI layer(jsps).
 
 why is the paradigm shift?
+
 Ans: Ten years ago applications have only web interfaces. With advancement in technology, there are wide variety of clients like mobile,tablets, gaming consoles and TV's etc. The controllers that were defined are not suitable for these latest devices. Also persitence storages have changed a lot like document based, key/value based, column based etc unlike one size fits all solutions like RDBMS. For ex, for the above monolith application modules, for product search elastic search may be more efficient. similarly for, reviews module mongo db may be the better solution.
 
 Note: It's very difficult for a monolithic application written in a single language to interact with plenty of persitent storages.
