@@ -98,6 +98,7 @@ If you want to start a new Spring project, it takes about one or two days only t
 Spring Boot is designed to address the above concerns. It is an opinionated approach to configuration and defaults. It basically provides you intelligent defaults automatically. For ex, if you want to start a web project, spring boot configures embedded tomcat by default.
 
 In a nutshell, spring boot offers the following.
+
 1)Easier dependency management<br>
 2)Automatic configuration and reasonable defaults<br>
 3)Different build and deployment options
@@ -105,6 +106,7 @@ In a nutshell, spring boot offers the following.
 Note: Spring boot is not a code generator. Also, it is not a plugin to any specific IDE. you can use it with any IDE.
 
 If you create a spring starter project using sts or with spring initializer the following things happen.
+
 1)Project structure is be created(Mostly folder structures like src/main/java,src/main/resources,src/main/test etc)<br>
 2)Application class and a Test class is created<br>
 3)Maven pom file is created with spring boot dependencies
