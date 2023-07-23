@@ -154,14 +154,14 @@ Note: This dependency downloads jars related to web like tomcat-embed-*.jar, spr
 	}
 
 - @ResponseBody indicates that the response is not tied to any view.
-- @EnableAutoConfiguration annotations looks at the classpath and identifies the spring-webmvc jar and creates beans DispatcherServelt,Handler mappings, Adapters, view resolver etc.
+- @EnableAutoConfiguration annotations looks at the classpath and identifies the spring-webmvc jar and creates beans DispatcherServlet,Handler mappings, Adapters, view resolver etc.
 - Springboot creates a jar file with embedded tomcat instance and runs it.
 
 Creating a war with Spring Boot
 -------------------------------
 To convert from jar to war<br>	
-1)change packaging in pom.xml to war<br>
-2)Extend the SpringBootServletIntitalizer
+- change packaging in pom.xml to war<br>
+- Extend the SpringBootServletIntitalizer
 
 	@SpringBootApplication
 	public class SpringbootdemoApplication extends SpringBootServletInitializer{
@@ -194,7 +194,7 @@ https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#u
 As Spring boot is opinionated, it expects the folder "templates" for thymeleaf under src/main/resources folder.
 
 
-Note: If you want to use use jsp's instead of thymeleaf, few changes are required.
+Note: If you want to use jsp's instead of thymeleaf, few changes are required.
 1)Add the following dependencies to pom.xml
 		
 		<dependency>
