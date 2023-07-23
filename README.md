@@ -153,9 +153,9 @@ Note: This dependency downloads jars related to web like tomcat-embed-*.jar, spr
 		}
 	}
 
-Note: @ResponseBody indicates that the response is not tied to any view.
-Note: @EnableAutoConfiguration annotations looks at the classpath and identifies the spring-webmvc jar and creates beans DispatcherServelt,Handler mappings, Adapters, view resolver etc.
-Note: Springboot creates a jar file with embedded tomcat instance and runs it.
+- @ResponseBody indicates that the response is not tied to any view.
+- @EnableAutoConfiguration annotations looks at the classpath and identifies the spring-webmvc jar and creates beans DispatcherServelt,Handler mappings, Adapters, view resolver etc.
+- Springboot creates a jar file with embedded tomcat instance and runs it.
 
 Creating a war with Spring Boot
 -------------------------------
