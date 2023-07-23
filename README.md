@@ -107,7 +107,7 @@ Note: Spring boot is not a code generator. Also, it is not a plugin to any speci
 
 If you create a spring starter project using sts or with spring initializer the following things happen.
 
-1)Project structure is be created(Mostly folder structures like src/main/java,src/main/resources,src/main/test etc)<br>
+1)Project structure is created(Mostly folder structures like src/main/java,src/main/resources,src/main/test etc)<br>
 2)Application class and a Test class is created<br>
 3)Maven pom file is created with spring boot dependencies
 
