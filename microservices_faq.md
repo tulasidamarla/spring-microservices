@@ -7,41 +7,6 @@
   - meantime to recovery (MTTR), and 
   - change failure rate (CFR).
   
-## Benefits of monolith
-
-- Simple to develop—IDEs and other developer tools are focused on building a sin- gle application.
-- Easy to make radical changes to the application—You can change the code and the database schema, build, and deploy.
-- Straightforward to test—The developers wrote end-to-end tests that launched the application, invoked the REST API, and tested the UI with Selenium.
-- Straightforward to deploy—All a developer had to do was copy the WAR file to a server that had Tomcat installed.
-- Easy to scale—FTGO ran multiple instances of the application behind a load balancer.
-
-## Disadvantages of monolith
-
-- COMPLEXITY INTIMIDATES DEVELOPERS
-- DEVELOPMENT IS SLOW
-- PATH FROM COMMIT TO DEPLOYMENT IS LONG AND ARDUOUS
-- SCALING IS DIFFICULT
-- DELIVERING A RELIABLE MONOLITH IS CHALLENGING
-- LOCKED INTO INCREASINGLY OBSOLETE TECHNOLOGY STACK
-
-## Benefits of microservices
-
-- The microservice architecture has the following benefits:
-  - It enables the continuous delivery and deployment of large, complex applications. 
-  - Services are small and easily maintained.
-  - Services are independently deployable. 
-  - Services are independently scalable.
-  - The microservice architecture enables teams to be autonomous. 
-  - It allows easy experimenting and adoption of new technologies. 
-  - It has better fault isolation.
-  
-## Drawbacks of the microservice architecture
-
-- Finding the right set of services is challenging.
-- Distributed systems are complex, which makes development, testing, and deployment difficult.
-- Deploying features that span multiple services requires careful coordination.
-- Deciding when to adopt the microservice architecture is difficult.
-
 ## Micro services vs SOA
 
 - Inter-service communication
@@ -171,6 +136,7 @@
 - Maintaining data consistency across services
 - Obtaining a consistent view of the data
 - God classes preventing decomposition
+- `TODO: Write complete notes on the above topic from the book`.
 
 ### Identifying system operations
 
@@ -288,7 +254,7 @@ Post-conditions         - The order.status was changed to ACCEPTED.
     - It’s a complex query involving geosearch.
   - findRestaurantMenu(id)
   
-### Define services by applying the Decompose by Business capabilities pattern
+## Define services by applying the Decompose by Business capabilities pattern
 
 - The set of capabilities for a given business depends on the kind of business.
   - For example, the capabilities of an insurance company typically include Underwriting, Claims management, Billing, Compliance, and so on.
@@ -327,4 +293,89 @@ Post-conditions         - The order.status was changed to ACCEPTED.
   - We may discover that a particular decomposition is inefficient due to excessive interprocess communication and that you must combine services.
   - Alternatively, a service might grow in complexity to the point where it becomes worthwhile to split it into multiple services.
 
-  
+## Defining services by applying the Decompose by sub-domain pattern
+
+- It is an approach for building complex software applications that is centered on the development of an object-oriented domain model.
+- DDD has two concepts that are incredibly useful when applying the microservice architecture: 
+  - subdomains.
+  - Bounded contexts.
+- DDD is quite different from the traditional approach to enterprise modeling.
+  - It creates a single model for the entire enterprise. 
+  - In this model there would be a single definition of each business entity, such as customer, order, and so on. 
+  - Problems
+    - Getting different parts of an organization to agree on a single model is a monumental task. 
+    - From the perspective of a given part of the organization, the model is overly complex for their needs. 
+    - The domain model can be confusing because different parts of the organization might use either the same term for different concepts or different terms for the same concept.
+  - Solution    
+    - DDD avoids these problems by defining multiple domain(subdomain) models, each with an explicit scope.
+- These subdomains are very similar to the business capabilities described earlier.  
+
+### Bounded Context
+
+- DDD calls the scope of a domain model a bounded context.
+- A bounded context includes the code artifacts that implement the model.
+- Each bounded context is a service or possibly a set of services.
+- The subdomains map to services, each with its own domain model as shown below.
+
+![Domain driven design](images/ddd.png)
+
+## Decomposition guidelines
+
+- So far we have seen at the main ways to define a microservice architecture.
+- We can also use a couple of principles from object-oriented design when applying the microservice architecture pattern.
+
+### SINGLE RESPONSIBILITY PRINCIPLE
+
+- A class should have only one reason to change.
+- If a class has multiple responsibilities that change independently, the class won’t be stable.
+- We can apply SRP when defining a microservice architecture and create small, cohesive services that each have a single responsibility.
+
+### COMMON CLOSURE PRINCIPLE
+
+- The classes in a package should be closed together against the same kinds of changes. 
+  - A change that affects a package affects all the classes in that package.
+- The goal is that when that business rule changes, developers only need to change code in a few packages (ideally only one).  
+
+
+## Defining Service Apis
+
+- A service api operation could be 
+  - A system operation. 
+  - A collaborating service.
+    - A service publishes events primarily to enable it to collaborate with other services.
+    - Events can be used to implement saga(Long lived transactions) or to update CQRS views.
+
+### ASSIGNING SYSTEM OPERATIONS TO SERVICES
+
+- Decide which service is the initial entry point for a request.
+- Sometimes the mapping is less obvious. For ex:
+  - The `noteUpdatedLocation()` operation, which updates the courier location.
+    - Because it’s related to couriers, this operation should be assigned to the Courier service.
+    - On the other hand, it’s the Delivery Service that needs the courier location.
+    - In this case, assigning an operation to a service that needs the information provided by the operation is a better choice.
+- Here is the assignment of system operations to services.
+
+```
+Consumer Service      createConsumer()
+Order Service         createOrder()
+Restaurant Service    findAvailableRestaurants()
+Kitchen Service       acceptOrder()
+                      noteOrderReadyForPickup()
+Delivery Service      noteUpdatedLocation()
+                      noteDeliveryPickedUp()
+                      noteDeliveryDelivered()
+```
+
+### DETERMINING THE APIS REQUIRED TO SUPPORT COLLABORATION BETWEEN SERVICES
+
+- Some system operations are handled entirely by a single service.
+  - For ex, the Consumer Service handles the createConsumer() operation entirely by itself.
+- But, many system operations span multiple services.
+  - For example, in order to implement the createOrder() operation, the Order Service must invoke the following services in order to verify its preconditions and make the post-conditions become true:
+    - Consumer Service—Verify that the consumer can place an order and obtain their payment information.
+    - Restaurant Service—Validate the order line items, verify that the delivery address/time is within the restaurant’s service area, verify order minimum is met, and obtain prices for the order line items.
+    - Kitchen Service—Create the Ticket.
+    - AccountingService—Authorize the consumer’s credit card.
+
+![System operations](images/system_operations_and_collaborations.png)
+
