@@ -101,6 +101,7 @@ for data access between microservices, may be a better choice.
 ## How to handle processed_events table style in no sql db?
 ## Understand the difference b/w completable future and executorservice.submit(runnableList) with each runnable call back
 ## How does security-context threadlocal works in spring security?
+## Non-blocking IO?
 
 
 
